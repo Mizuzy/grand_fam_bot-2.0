@@ -14,17 +14,8 @@ const client = new Client({
 });
 
 // ----------- Handler-Importe ---------------
-const startBizwarHandler = require('./handler/bizwarHandler');
-const startfortyHandler = require('./handler/fortyHandler');
-const startRpTicketHandler = require('./handler/rpTicketHandler');
-const startWaffenfabrikHandler = require('./handler/waffenfabrikHandler');
-const startGiessereitHandler = require('./handler/giessereiHandler.js');
-const startCayoHandler = require('./handler/cayoHandler.js');
-const startEkzHandler = require('./handler/ekzHandler.js');
-const startHotelHandler = require('./handler/hotelHandler.js');
-const startWeinbergeHandler = require('./handler/weinbergeHandler.js');
-const startAnkuendigungsHandler = require('./handler/ankuendigungHandler.js');
-const startFiftyHandler = require('./handler/fiftyHandler.js');
+const startsendEventHandler = require('./handler/sendEventHandler.js');
+
 
 // Weitere Handler manuell hier hinzufügen...
 
@@ -105,39 +96,20 @@ client.once('ready', async () => {
   console.log(`✅ Bot online als ${client.user.tag}`);
 
   console.log('Events: ');
+  startsendEventHandler(client);
+  console.log('sendEventHandler gestartet');
   
-  startBizwarHandler(client);
-  console.log('Bizwarhandler gestartet');
-  startfortyHandler(client);
-  console.log('FortyHandler gestartet');
-  startRpTicketHandler(client);
-  console.log('rpTicketHandler gestartet');
-  startWaffenfabrikHandler(client);
-  console.log('WaffenfabrikHandler gestartet');
-  startGiessereitHandler(client);
-  console.log('GiessereitHandler gestartet');
-  startCayoHandler(client);
-  console.log('CayoHandler gestartet');
-  startEkzHandler(client);
-  console.log('EkzHandler gestartet');
-  startHotelHandler(client);
-  console.log('HotelHandler gestartet');
-  startWeinbergeHandler(client);
-  console.log('WeinbergeHandler gestartet');
-  startFiftyHandler(client);
-  console.log('FiftyHandler gestartet');
 
   console.log(' ');
   console.log('Rest: ')
-  startAnkuendigungsHandler(client);
+  //startAnkuendigungsHandler(client);
   console.log('AnkuendigungsHandler gestartet');
 
 
   const activities = [
-    { name: '⚜ Grand RP' },
+    { name: 'By Mizuzy' },
     { name: '🔗 .gg/cavarahub' },
     { name: '📦 Sponsored By CavaraHUB' },
-    { name: '😊 1234 Member' },
   ];
   let i = 0;
 
