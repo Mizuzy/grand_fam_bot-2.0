@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Announcement Sender</title>
+    <style>
+        /* Page background and font styling */
+        body {
+            background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #222;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Container for the form */
+        .container {
+            background: #fff;
+            padding: 2rem 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(78,84,200,0.15);
+            text-align: center;
+            max-width: 400px;
+        }
+        h2 {
+            margin-top: 0;
+            color: #4e54c8;
+        }
+        /* Textarea styling */
+        textarea {
+            width: 90%;
+            min-height: 80px;
+            padding: 0.7rem;
+            margin: 1rem 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+        }
+        /* Button styling */
+        button {
+            background: #4e54c8;
+            color: #fff;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #6c70e5;
+        }
+        /* Info text styling */
+        .info {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Send an Announcement</h2>
+        <div class="info">
+            <!-- Instructions for the user -->
+            Enter your announcement text below and click <b>Submit</b>.<br>
+            You can use multiple lines (Shift+Enter for a new line).<br>
+            The message will be sent to your Discord channel.
+        </div>
+        <!-- Textarea for user input -->
+        <textarea id="userInput" placeholder="Type your announcement..."></textarea>
+        <br>
+        <!-- Button to submit the announcement -->
+        <button onclick="sendInput()">Submit</button>
+    </div>
+    <script>
+        // Function to send the announcement to the server
+        async function sendInput() {
+            const input = document.getElementById('userInput').value;
+            if (!input.trim()) {
+                alert('Please enter some text!');
+                return;
+            }
+            // Send the announcement text to the backend via POST request
+            await fetch('/api/announcement', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: input })
+            });
+            alert('Text sent!');
+            document.getElementById('userInput').value = '';
+        }
+    </script>
+</body>
+</html>

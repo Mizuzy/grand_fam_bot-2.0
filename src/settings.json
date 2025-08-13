@@ -1,0 +1,15 @@
+{
+  "19:05": {
+    "map": "dust2",
+    "prio": "low"
+  },
+  "01:05": {
+    "map": "dust2",
+    "prio": "medium"
+  },
+  "Map": {
+    "dust2": "https://cdn.discordapp.com/attachments/1395364597753708563/1397267869468856522/292fb9e77ddf4c06dd6133ecfa1a5d4f.png?ex=68850f1c&is=6883bd9c&hm=1a1bc8f9f9e1341beb97e9d8ba4e662521b8f337d540545681d45c4303bc5e5e&",
+    "mirage": "https://cdn.discordapp.com/attachments/1388825319502381149/1398403331944349696/9999999.PNG?ex=68853c17&is=6883ea97&hm=5e930617e7cfe0b9271b5cf81bd76b4c8ad872198310926bc6f7f90fde288dda&",
+    "inferno": "https://cdn.discordapp.com/attachments/1388825319502381149/1398403331235250186/sdaasdsdds.PNG?ex=68853c17&is=6883ea97&hm=e1b708a93a3c773d6e73a3266148860c476f35504af5e8cd7b513a77447745a2&"
+  }
+}
