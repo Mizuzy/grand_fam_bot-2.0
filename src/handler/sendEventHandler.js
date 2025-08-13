@@ -168,6 +168,13 @@ module.exports = function startfortyHandler(client) {
     cron.schedule("30 * * * *", async () => {
         prepEvent(client, '40');
     });
-
+    // 19:05er Bizwar
+    cron.schedule("50 18 * * *", async () => {
+        prepEvent(client, 'bizwar');
+    });
+    // 19:05er Bizwar
+    cron.schedule("50 0 * * *", async () => {
+        prepEvent(client, 'bizwar');
+    });
 
 };
