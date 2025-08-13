@@ -124,24 +124,22 @@ async function CreateFortyEmbed(guildName, headerTemplate, contentTemplate, even
     return [baseEmbed];
 }
 
-// Main handler function to start the 40er event cron job
-module.exports = function startfortyHandler(client) {
-    // 40er
-    cron.schedule("30 * * * *", async () => {
-        const [rows] = await db.execute(
-            "SELECT `setconfig` FROM config WHERE config = 'send_forty'"
+async function prepEvent(client, event) {
+    const [rows] = await db.execute(
+            "SELECT `setconfig` FROM config WHERE config = 'send_" + event + "'"
         );
         if (rows.length > 0 && rows[0].setconfig === 1) {
             try {
                 const channel = await client.channels.fetch(ev_ank);
                 if (channel && channel.isTextBased()) {
                     const [rows] = await db.execute(
-                        "SELECT `header`, `content` FROM embedcontent WHERE ID = 1"
+                        "SELECT `header`, `content` FROM embedcontent WHERE event = ?",
+                        [event]
                     );
                     const header = rows.length > 0 ? rows[0].header : '';
                     const content = rows.length > 0 ? rows[0].content : '';
                     // Event-Key für Prio: '40'
-                    const components = await CreateFortyEmbed(channel.guild.name, header, content, '40');
+                    const components = await CreateFortyEmbed(channel.guild.name, header, content, event);
                     const message = await channel.send({
                         components: components,
                         flags: MessageFlags.IsComponentsV2,
@@ -152,90 +150,24 @@ module.exports = function startfortyHandler(client) {
                         } catch (deleteErr) {
                             console.error("❌ Fehler beim Löschen der Nachricht:", deleteErr);
                         }
-                    }, 1200 * 1000);
+                    }, 30 * 1000);
                 } else {
                     console.warn('⚠️ Channel ist nicht textbasiert oder nicht gefunden');
                 }
             } catch (err) {
-                console.error('❌ Fehler im 40 Cronjob:', err);
+                console.error('❌ Fehler im ' + event + ' Cronjob:', err);
             }
         } else {
-            console.log('Kein Eintrag gefunden');
+            console.log('❌ Event ' + event + ' ist nicht aktiviert oder nicht konfiguriert.');
         }
+}
+
+// Main handler function to start the 40er event cron job
+module.exports = function startfortyHandler(client) {
+    // 40er
+    cron.schedule("30 * * * *", async () => {
+        prepEvent(client, '40');
     });
 
-    // BIZWAR 19:05
-    cron.schedule("50 18 * * *", async () => {
-        const [rows] = await db.execute(
-            "SELECT `setconfig` FROM config WHERE config = 'send_bizwar'"
-        );
-        if (rows.length > 0 && rows[0].setconfig === 1) {
-            try {
-                const channel = await client.channels.fetch(ev_ank);
-                if (channel && channel.isTextBased()) {
-                    const [rows] = await db.execute(
-                        "SELECT `header`, `content` FROM embedcontent WHERE ID = 2"
-                    );
-                    const header = rows.length > 0 ? rows[0].header : '';
-                    const content = rows.length > 0 ? rows[0].content : '';
-                    // Event-Key für Prio: 'BiZWAR'
-                    const components = await CreateFortyEmbed(channel.guild.name, header, content, 'BiZWAR');
-                    const message = await channel.send({
-                        components: components,
-                        flags: MessageFlags.IsComponentsV2,
-                    });
-                    setTimeout(async () => {
-                        try {
-                            await message.delete();
-                        } catch (deleteErr) {
-                            console.error("❌ Fehler beim Löschen der Nachricht:", deleteErr);
-                        }
-                    }, 1200 * 1000);
-                } else {
-                    console.warn('⚠️ Channel ist nicht textbasiert oder nicht gefunden');
-                }
-            } catch (err) {
-                console.error('❌ Fehler im bizwar Cronjob:', err);
-            }
-        } else {
-            console.log('Kein Eintrag gefunden');
-        }
-    });
-// BIZWAR 01:05
-    cron.schedule("50 0 * * *", async () => {
-        const [rows] = await db.execute(
-            "SELECT `setconfig` FROM config WHERE config = 'send_bizwar'"
-        );
-        if (rows.length > 0 && rows[0].setconfig === 1) {
-            try {
-                const channel = await client.channels.fetch(ev_ank);
-                if (channel && channel.isTextBased()) {
-                    const [rows] = await db.execute(
-                        "SELECT `header`, `content` FROM embedcontent WHERE ID = 2"
-                    );
-                    const header = rows.length > 0 ? rows[0].header : '';
-                    const content = rows.length > 0 ? rows[0].content : '';
-                    // Event-Key für Prio: 'BiZWAR'
-                    const components = await CreateFortyEmbed(channel.guild.name, header, content, 'BiZWAR');
-                    const message = await channel.send({
-                        components: components,
-                        flags: MessageFlags.IsComponentsV2,
-                    });
-                    setTimeout(async () => {
-                        try {
-                            await message.delete();
-                        } catch (deleteErr) {
-                            console.error("❌ Fehler beim Löschen der Nachricht:", deleteErr);
-                        }
-                    }, 1200 * 1000);
-                } else {
-                    console.warn('⚠️ Channel ist nicht textbasiert oder nicht gefunden');
-                }
-            } catch (err) {
-                console.error('❌ Fehler im bizwar Cronjob:', err);
-            }
-        } else {
-            console.log('Kein Eintrag gefunden');
-        }
-    });
+
 };
