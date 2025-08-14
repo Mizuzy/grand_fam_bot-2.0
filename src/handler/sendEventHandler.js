@@ -20,30 +20,23 @@ const settingsPath = path.resolve(__dirname, '../settings.json');
 const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8')); // Load settings from settings.json file
 
 // Funktion zum Erstellen des Embeds, jetzt mit eventKey als Parameter
-async function CreateFortyEmbed(guildName, headerTemplate, contentTemplate, eventKey) {
+async function createEmbed(guildName, headerTemplate, contentTemplate, eventKey) {
     let prio = '🟡 Medium'; // Default fallback
     let map = '/';
     let imgLink = null;
     let timeKey = new Date().getHours();
+    let eventId = null; // Für das spätere Reset
 
     try {
-        // Prio aus der anderen Tabelle holen
-        const [prioRows] = await db.execute(
-            "SELECT Prio FROM events WHERE Event = ? LIMIT 1",
-            [eventKey]
-        );
-        if (prioRows.length > 0 && prioRows[0].Prio) {
-            prio = prioRows[0].Prio;
-        }
-
-        // Map wie gehabt (optional, falls du das brauchst)
+        // Prio und MapID aus der anderen Tabelle holen
         const [rows] = await db.execute(
             "SELECT * FROM events WHERE Event = ? LIMIT 1",
             [eventKey]
         );
         if (rows.length > 0) {
             const event = rows[0];
-            // MapID Handling wie gehabt
+            eventId = event.ID;
+            if (event.Prio) prio = event.Prio;
             if (event.MapID) {
                 const [mapRows] = await db.execute(
                     "SELECT MAP, IMG FROM maps WHERE ID = ? LIMIT 1",
@@ -54,11 +47,6 @@ async function CreateFortyEmbed(guildName, headerTemplate, contentTemplate, even
                     imgLink = mapRows[0].IMG;
                 }
             }
-            // Reset MapID/Prio falls gewünscht (optional)
-            // await db.execute(
-            //     "UPDATE events SET Prio = '🟡 Medium', MapID = NULL WHERE ID = ?",
-            //     [event.ID]
-            // );
         }
     } catch (err) {
         console.error('❌ Fehler beim DB-Zugriff:', err);
@@ -121,45 +109,58 @@ async function CreateFortyEmbed(guildName, headerTemplate, contentTemplate, even
         new TextDisplayBuilder().setContent(`-# ${guildName}︲Bot by Cavara︲` + "<@&" + process.env.EV_PING_ROLE + ">"),
     );
 
-    return [baseEmbed];
+    // Rückgabe: Embed und eventId für das spätere Reset
+    return { embed: [baseEmbed], eventId };
 }
 
 async function prepEvent(client, event) {
     const [rows] = await db.execute(
-            "SELECT `setconfig` FROM config WHERE config = 'send_" + event + "'"
-        );
-        if (rows.length > 0 && rows[0].setconfig === 1) {
-            try {
-                const channel = await client.channels.fetch(ev_ank);
-                if (channel && channel.isTextBased()) {
-                    const [rows] = await db.execute(
-                        "SELECT `header`, `content` FROM embedcontent WHERE event = ?",
-                        [event]
-                    );
-                    const header = rows.length > 0 ? rows[0].header : '';
-                    const content = rows.length > 0 ? rows[0].content : '';
-                    // Event-Key für Prio: '40'
-                    const components = await CreateFortyEmbed(channel.guild.name, header, content, event);
-                    const message = await channel.send({
-                        components: components,
-                        flags: MessageFlags.IsComponentsV2,
-                    });
-                    setTimeout(async () => {
-                        try {
-                            await message.delete();
-                        } catch (deleteErr) {
-                            console.error("❌ Fehler beim Löschen der Nachricht:", deleteErr);
-                        }
-                    }, 30 * 1000);
-                } else {
-                    console.warn('⚠️ Channel ist nicht textbasiert oder nicht gefunden');
+        "SELECT `setconfig` FROM config WHERE config = 'send_" + event + "'"
+    );
+    if (rows.length > 0 && rows[0].setconfig === 1) {
+        try {
+            const channel = await client.channels.fetch(ev_ank);
+            if (channel && channel.isTextBased()) {
+                const [rows] = await db.execute(
+                    "SELECT `header`, `content` FROM embedcontent WHERE event = ?",
+                    [event]
+                );
+                const header = rows.length > 0 ? rows[0].header : '';
+                const content = rows.length > 0 ? rows[0].content : '';
+                // Event-Key für Prio: '40'
+                const { embed: components, eventId } = await createEmbed(channel.guild.name, header, content, event);
+                const message = await channel.send({
+                    components: components,
+                    flags: MessageFlags.IsComponentsV2,
+                });
+                setTimeout(async () => {
+                    try {
+                        await message.delete();
+                    } catch (deleteErr) {
+                        console.error("❌ Fehler beim Löschen der Nachricht:", deleteErr);
+                    }
+                }, 1200 * 1000);
+
+                // Prio und MapID nach dem Senden zurücksetzen
+                if (eventId) {
+                    try {
+                        await db.execute(
+                            "UPDATE events SET Prio = '🟡 Medium', MapID = NULL WHERE ID = ?",
+                            [eventId]
+                        );
+                    } catch (resetErr) {
+                        console.error("❌ Fehler beim Zurücksetzen von Prio/MapID:", resetErr);
+                    }
                 }
-            } catch (err) {
-                console.error('❌ Fehler im ' + event + ' Cronjob:', err);
+            } else {
+                console.warn('⚠️ Channel ist nicht textbasiert oder nicht gefunden');
             }
-        } else {
-            console.log('❌ Event ' + event + ' ist nicht aktiviert oder nicht konfiguriert.');
+        } catch (err) {
+            console.error('❌ Fehler im ' + event + ' Cronjob:', err);
         }
+    } else {
+        console.log('❌ Event ' + event + ' ist nicht aktiviert oder nicht konfiguriert.');
+    }
 }
 
 // Main handler function to start the 40er event cron job
@@ -176,5 +177,6 @@ module.exports = function startfortyHandler(client) {
     cron.schedule("50 0 * * *", async () => {
         prepEvent(client, 'bizwar');
     });
+
 
 };
