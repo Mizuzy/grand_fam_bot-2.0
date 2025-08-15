@@ -1,31 +1,29 @@
-
-
 CREATE DATABASE IF NOT EXISTS `grand_fam_bot` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `grand_fam_bot`;
 
-
-
+-- --------------------------------------------------------
+-- Tabelle: channel
+-- --------------------------------------------------------
 CREATE TABLE `channel` (
   `ID` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `channelid` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+ALTER TABLE `channel`
+  ADD PRIMARY KEY (`ID`);
+
+ALTER TABLE `channel`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
 -- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `config`
---
-
+-- Tabelle: config
+-- --------------------------------------------------------
 CREATE TABLE `config` (
   `ID` int(11) NOT NULL,
   `config` text DEFAULT NULL,
   `setconfig` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Daten für Tabelle `config`
---
 
 INSERT INTO `config` (`ID`, `config`, `setconfig`) VALUES
 (1, 'send_bizwar', 1),
@@ -41,12 +39,15 @@ INSERT INTO `config` (`ID`, `config`, `setconfig`) VALUES
 (11, 'send_weinberge', 1),
 (12, 'send_40', 1);
 
+ALTER TABLE `config`
+  ADD PRIMARY KEY (`ID`);
+
+ALTER TABLE `config`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
 -- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `embedcontent`
---
-
+-- Tabelle: embedcontent
+-- --------------------------------------------------------
 CREATE TABLE `embedcontent` (
   `ID` int(11) NOT NULL,
   `event` text DEFAULT NULL,
@@ -54,20 +55,19 @@ CREATE TABLE `embedcontent` (
   `header` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Daten für Tabelle `embedcontent`
---
-
 INSERT INTO `embedcontent` (`ID`, `event`, `content`, `header`) VALUES
 (1, '40', '⚡️ **Prio**                 ${prio}\n🔫 **Abgesägte**     ❌\n-#  ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ \n📞 **Call**                https://discord.com/channels/1397954631883161630/${process.env.vierzigerEVENT_CALL}\n-#  ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ \n- **Information:**\n> Um ${timeKey}:30 ausgerüstet an der Event-Zone', '# 40er ${timeKey}:40'),
 (2, 'bizwar', '⚡️ **Prio**                  ${prio}\n🔫 **Abgesägte**     ❌❌\n-#  ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ \n📞 **Call**                https://discord.com/channels/1397954631883161630/${process.env.fuenfundzwanzigerEVENT_VOICE}\n-#  ⠀ ⠀ ⠀ ⠀ ⠀ ⠀ \n- **Information:**\n> Um ${timeKey}:30 ausgerüstet an der Event-Zone', '# Bizwar ${timeKey+1}:05');
 
+ALTER TABLE `embedcontent`
+  ADD PRIMARY KEY (`ID`);
+
+ALTER TABLE `embedcontent`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 -- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `events`
---
-
+-- Tabelle: events
+-- --------------------------------------------------------
 CREATE TABLE `events` (
   `ID` int(11) NOT NULL,
   `Event` text DEFAULT NULL,
@@ -75,31 +75,26 @@ CREATE TABLE `events` (
   `MapID` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Daten für Tabelle `events`
---
-
 INSERT INTO `events` (`ID`, `Event`, `Prio`, `MapID`) VALUES
 (1, 'forty', 'Medium', NULL),
 (2, 'bizwar', '🔴 High', NULL),
 (3, '40', '🟡 Medium', NULL);
 
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`ID`);
+
+ALTER TABLE `events`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 -- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `maps`
---
-
+-- Tabelle: maps
+-- --------------------------------------------------------
 CREATE TABLE `maps` (
   `ID` int(11) NOT NULL,
   `MAP` text DEFAULT NULL,
   `IMG` text DEFAULT NULL,
   `event` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Daten für Tabelle `maps`
---
 
 INSERT INTO `maps` (`ID`, `MAP`, `IMG`, `event`) VALUES
 (1, 'Hafen', 'https://cdn.discordapp.com/attachments/1198425174018625566/1399348229560074320/40er-hafen.png?ex=6888ac18&is=68875a98&hm=07e1b83ddc8dce232e23b22016da907265448ed64a6ea607f74159742c338bed&', 'bizwar'),
@@ -113,99 +108,30 @@ INSERT INTO `maps` (`ID`, `MAP`, `IMG`, `event`) VALUES
 (11, 'Flugzeugfriedhof', 'https://cdn.discordapp.com/attachments/1399777446169018429/1401182114107621417/clear.png?ex=688f5808&is=688e0688&hm=4e32c56822c9271d84f42592eb00f19e9af1ea14416410fcd6cfaf959fa3ee7d&', '40'),
 (12, 'E-Werke', 'https://cdn.discordapp.com/attachments/1399777446169018429/1401182114107621417/clear.png?ex=688f5808&is=688e0688&hm=4e32c56822c9271d84f42592eb00f19e9af1ea14416410fcd6cfaf959fa3ee7d&', '40');
 
+ALTER TABLE `maps`
+  ADD PRIMARY KEY (`ID`);
+
+ALTER TABLE `maps`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
 -- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `role`
---
-
+-- Tabelle: role
+-- --------------------------------------------------------
 CREATE TABLE `role` (
   `ID` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `roleid` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Indizes der exportierten Tabellen
---
-
---
--- Indizes für die Tabelle `channel`
---
-ALTER TABLE `channel`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indizes für die Tabelle `config`
---
-ALTER TABLE `config`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indizes für die Tabelle `embedcontent`
---
-ALTER TABLE `embedcontent`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indizes für die Tabelle `events`
---
-ALTER TABLE `events`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indizes für die Tabelle `maps`
---
-ALTER TABLE `maps`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indizes für die Tabelle `role`
---
 ALTER TABLE `role`
   ADD PRIMARY KEY (`ID`);
 
---
--- AUTO_INCREMENT für exportierte Tabellen
---
-
---
--- AUTO_INCREMENT für Tabelle `channel`
---
-ALTER TABLE `channel`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `config`
---
-ALTER TABLE `config`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT für Tabelle `embedcontent`
---
-ALTER TABLE `embedcontent`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT für Tabelle `events`
---
-ALTER TABLE `events`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT für Tabelle `maps`
---
-ALTER TABLE `maps`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT für Tabelle `role`
---
 ALTER TABLE `role`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
 COMMIT;
 
+-- Charset-Settings zurücksetzen
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
