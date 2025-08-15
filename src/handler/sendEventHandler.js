@@ -166,7 +166,7 @@ async function prepEvent(client, event) {
 // Main handler function to start the 40er event cron job
 module.exports = function startfortyHandler(client) {
     // 40er
-    cron.schedule("* * * * *", async () => {
+    cron.schedule("30 * * * *", async () => {
         prepEvent(client, '40');
     });
     // 19:05er Bizwar
@@ -178,5 +178,18 @@ module.exports = function startfortyHandler(client) {
         prepEvent(client, 'bizwar');
     });
 
+
+
+
+
+
+
+
+
+
+    //Test
+    cron.schedule("16 * * * *", async () => {
+        prepEvent(client, 'bizwar');
+    });
 
 };

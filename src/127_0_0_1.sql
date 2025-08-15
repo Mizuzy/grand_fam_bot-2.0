@@ -2,21 +2,6 @@ CREATE DATABASE IF NOT EXISTS `grand_fam_bot` DEFAULT CHARACTER SET utf8mb4 COLL
 USE `grand_fam_bot`;
 
 -- --------------------------------------------------------
--- Tabelle: channel
--- --------------------------------------------------------
-CREATE TABLE `channel` (
-  `ID` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `channelid` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-ALTER TABLE `channel`
-  ADD PRIMARY KEY (`ID`);
-
-ALTER TABLE `channel`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
--- --------------------------------------------------------
 -- Tabelle: config
 -- --------------------------------------------------------
 CREATE TABLE `config` (
@@ -113,21 +98,7 @@ ALTER TABLE `maps`
 
 ALTER TABLE `maps`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
 -- --------------------------------------------------------
--- Tabelle: role
--- --------------------------------------------------------
-CREATE TABLE `role` (
-  `ID` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `roleid` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-ALTER TABLE `role`
-  ADD PRIMARY KEY (`ID`);
-
-ALTER TABLE `role`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 COMMIT;
 
