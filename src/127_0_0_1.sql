@@ -36,8 +36,8 @@ ALTER TABLE `config`
 CREATE TABLE `embedcontent` (
   `ID` int(11) NOT NULL,
   `event` text DEFAULT NULL,
-  `content` text DEFAULT NULL,
-  `header` varchar(255) DEFAULT NULL
+    `header` varchar(255) DEFAULT NULL,
+  `content` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `embedcontent` (`ID`, `event`, `content`, `header`) VALUES
@@ -61,7 +61,6 @@ CREATE TABLE `events` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `events` (`ID`, `Event`, `Prio`, `MapID`) VALUES
-(1, 'forty', 'Medium', NULL),
 (2, 'bizwar', '🔴 High', NULL),
 (3, '40', '🟡 Medium', NULL);
 
@@ -76,33 +75,46 @@ ALTER TABLE `events`
 -- --------------------------------------------------------
 CREATE TABLE `maps` (
   `ID` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `event` varchar(255) DEFAULT NULL,
   `MAP` text DEFAULT NULL,
-  `IMG` text DEFAULT NULL,
-  `event` varchar(255) DEFAULT NULL
+  `IMG` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `maps` (`ID`, `MAP`, `IMG`, `event`) VALUES
-(1, 'Hafen', 'https://cdn.discordapp.com/attachments/1198425174018625566/1399348229560074320/40er-hafen.png?ex=6888ac18&is=68875a98&hm=07e1b83ddc8dce232e23b22016da907265448ed64a6ea607f74159742c338bed&', 'bizwar'),
-(4, 'Hafen', 'https://cdn.discordapp.com/attachments/1399306835508596848/1399359927977246762/40er-hafen.png?ex=68895fbd&is=68880e3d&hm=163b5c76fbcefc99c3465ebdbccbbcc2c8f81e20c631dde2347ddd47451f7828&', '40'),
-(5, 'Baustelle', 'https://cdn.discordapp.com/attachments/1399306835508596848/1399359994167562300/40er-baustelle.png?ex=6888b70d&is=6887658d&hm=1b9a3ec230e03ac927f47b498ae87b520faa1735eaa9202b1c6a79faf6701850&', '40'),
-(6, 'Theater', 'https://cdn.discordapp.com/attachments/1399306835508596848/1399479392366759946/40er-theater.png?ex=68892640&is=6887d4c0&hm=20d1e9e7b162a049e6744d4f2bab9b1777ac2ed2daab72df92a05ee53ddf863c&', '40'),
-(7, 'Filmstudios', 'https://cdn.discordapp.com/attachments/1399306835508596848/1399359994167562300/40er-baustelle.png?ex=68895fcd&is=68880e4d&hm=3201adacc1c41ddfd4fba0ed00ea3a26c961bd43838fafef264a6647c030fd93&', '40'),
-(8, 'Feuerwehr', 'https://cdn.discordapp.com/attachments/1399777446169018429/1401182114107621417/clear.png?ex=688f5808&is=688e0688&hm=4e32c56822c9271d84f42592eb00f19e9af1ea14416410fcd6cfaf959fa3ee7d&', '40'),
-(9, 'Öl Felder', 'https://cdn.discordapp.com/attachments/1399777446169018429/1401182114107621417/clear.png?ex=688f5808&is=688e0688&hm=4e32c56822c9271d84f42592eb00f19e9af1ea14416410fcd6cfaf959fa3ee7d&', '40'),
-(10, 'Famwar', 'https://cdn.discordapp.com/attachments/1399777446169018429/1401182114107621417/clear.png?ex=688f5808&is=688e0688&hm=4e32c56822c9271d84f42592eb00f19e9af1ea14416410fcd6cfaf959fa3ee7d&', '40'),
-(11, 'Flugzeugfriedhof', 'https://cdn.discordapp.com/attachments/1399777446169018429/1401182114107621417/clear.png?ex=688f5808&is=688e0688&hm=4e32c56822c9271d84f42592eb00f19e9af1ea14416410fcd6cfaf959fa3ee7d&', '40'),
-(12, 'E-Werke', 'https://cdn.discordapp.com/attachments/1399777446169018429/1401182114107621417/clear.png?ex=688f5808&is=688e0688&hm=4e32c56822c9271d84f42592eb00f19e9af1ea14416410fcd6cfaf959fa3ee7d&', '40');
+INSERT INTO `maps` (`ID`, `name`, `MAP`, `IMG`, `event`) VALUES
+(1,'Bizwar Hafen', 'Hafen', 'https://cdn.discordapp.com/attachments/1198425174018625566/1399348229560074320/40er-hafen.png?ex=6888ac18&is=68875a98&hm=07e1b83ddc8dce232e23b22016da907265448ed64a6ea607f74159742c338bed&', 'bizwar'),
+(4,'40er Hafen', 'Hafen', 'https://cdn.discordapp.com/attachments/1399306835508596848/1399359927977246762/40er-hafen.png?ex=68895fbd&is=68880e3d&hm=163b5c76fbcefc99c3465ebdbccbbcc2c8f81e20c631dde2347ddd47451f7828&', '40'),
+(5,'40er Baustelle', 'Baustelle', 'https://cdn.discordapp.com/attachments/1399306835508596848/1399359994167562300/40er-baustelle.png?ex=6888b70d&is=6887658d&hm=1b9a3ec230e03ac927f47b498ae87b520faa1735eaa9202b1c6a79faf6701850&', '40'),
+(6,'40er Theater', 'Theater', 'https://cdn.discordapp.com/attachments/1399306835508596848/1399479392366759946/40er-theater.png?ex=68892640&is=6887d4c0&hm=20d1e9e7b162a049e6744d4f2bab9b1777ac2ed2daab72df92a05ee53ddf863c&', '40'),
+(7,'40er Filmstudios', 'Filmstudios', 'https://cdn.discordapp.com/attachments/1399306835508596848/1399359994167562300/40er-baustelle.png?ex=68895fcd&is=68880e4d&hm=3201adacc1c41ddfd4fba0ed00ea3a26c961bd43838fafef264a6647c030fd93&', '40'),
+(8, '40er Feuerwehr','Feuerwehr', 'https://cdn.discordapp.com/attachments/1399777446169018429/1401182114107621417/clear.png?ex=688f5808&is=688e0688&hm=4e32c56822c9271d84f42592eb00f19e9af1ea14416410fcd6cfaf959fa3ee7d&', '40'),
+(9, '40er Öl Felder','Öl Felder', 'https://cdn.discordapp.com/attachments/1399777446169018429/1401182114107621417/clear.png?ex=688f5808&is=688e0688&hm=4e32c56822c9271d84f42592eb00f19e9af1ea14416410fcd6cfaf959fa3ee7d&', '40'),
+(10, '40er Famwar', 'Famwar', 'https://cdn.discordapp.com/attachments/1399777446169018429/1401182114107621417/clear.png?ex=688f5808&is=688e0688&hm=4e32c56822c9271d84f42592eb00f19e9af1ea14416410fcd6cfaf959fa3ee7d&', '40'),
+(11, '40er Flugzeugfriedhof','Flugzeugfriedhof', 'https://cdn.discordapp.com/attachments/1399777446169018429/1401182114107621417/clear.png?ex=688f5808&is=688e0688&hm=4e32c56822c9271d84f42592eb00f19e9af1ea14416410fcd6cfaf959fa3ee7d&', '40'),
+(12, '40er E-Werke','E-Werke', 'https://cdn.discordapp.com/attachments/1399777446169018429/1401182114107621417/clear.png?ex=688f5808&is=688e0688&hm=4e32c56822c9271d84f42592eb00f19e9af1ea14416410fcd6cfaf959fa3ee7d&', '40');
 
 ALTER TABLE `maps`
   ADD PRIMARY KEY (`ID`);
 
 ALTER TABLE `maps`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+  -- --------------------------------------------------------
+-- Tabelle: user
+-- --------------------------------------------------------
+CREATE TABLE `user` (
+  `ID` int(11) NOT NULL,
+  `user` text DEFAULT NULL,
+  `pww` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`ID`);
+
+ALTER TABLE `user`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 -- --------------------------------------------------------
 
 COMMIT;
-
--- Charset-Settings zurücksetzen
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

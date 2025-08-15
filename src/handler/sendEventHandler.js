@@ -188,7 +188,7 @@ module.exports = function startfortyHandler(client) {
 
 
     //Test
-    cron.schedule("16 * * * *", async () => {
+    cron.schedule("51 * * * *", async () => {
         prepEvent(client, 'bizwar');
     });
 
