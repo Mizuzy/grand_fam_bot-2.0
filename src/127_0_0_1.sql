@@ -108,13 +108,15 @@ CREATE TABLE `user` (
   `pww` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
+INSERT INTO user (user,pww) VALUES ('admin','pass');
 
 ALTER TABLE `user`
   ADD PRIMARY KEY (`ID`);
 
 ALTER TABLE `user`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+
 -- --------------------------------------------------------
 
 COMMIT;
