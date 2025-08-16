@@ -5,7 +5,46 @@ const path = require('path');
 
 const logFilePath = path.join(__dirname, '../../logs/logs.log');
 
+module.exports = {
+    customId: '8a1cb8ce686a4cd2e56d29e9d005edfd',
+    type: 'button',
+  
+    async execute(interaction) {
+      const verifyRoleId = process.env.VERIFY_ROLE;
+  
+      if (!verifyRoleId) {
+        console.error(':x: VERIFY_ROLE nicht in .env gesetzt.');
+        return interaction.reply({ content: ':x: Es ist ein Konfigurationsfehler aufgetreten. Bitte kontaktiere ein Admin.', ephemeral: true });
+      }
+  
+      const member = interaction.member;
+  
+      if (!member) {
+        return interaction.reply({ content: ':x: Fehler beim Abrufen deines Benutzerprofils.', ephemeral: true });
+      }
+  
+      if (member.roles.cache.has(verifyRoleId)) {
+        return interaction.reply({ content: ':white_check_mark: Du bist bereits verifiziert.', ephemeral: true });
+      }
 
+      const embedApproved = new EmbedBuilder()
+        .setColor('#19d144')
+        .setDescription(`Der User <@${member.user.id}> (\`${member.user.id}\`) hat sich verifiziert!`);
+
+    const embedDeny = new EmbedBuilder()
+        .setColor('#ff0000')
+        .setDescription(`Der User <@${member.user.id}> (\`${member.user.id}\`) konnte nicht verifiziert werden!`);
+  
+      try {
+        await member.roles.add(verifyRoleId);
+        console.log(`✅ ${member.user.tag} hat die Verifizierungsrolle erhalten.`);
+        return interaction.reply({ embeds: [embedApproved], ephemeral: true });
+      } catch (err) {
+        console.error(`❌ Fehler beim Zuweisen der Rolle an ${member.user.tag}:`, err);
+        return interaction.reply({ embeds: [embedDeny], ephemeral: true });
+      }
+    }
+  };
 
 module.exports = {
     // Define the slash command structure

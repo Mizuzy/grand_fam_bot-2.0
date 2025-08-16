@@ -15,12 +15,13 @@ const client = new Client({
 
 // ----------- Handler-Importe ---------------
 const startsendEventHandler = require('./handler/sendEventHandler.js');
+const welcomeButtonHandler = require('./handler/welcome.js');
 
 
 // Weitere Handler manuell hier hinzufügen...
 
 const buttonHandlers = {
-  //'8a1cb8ce686a4cd2e56d29e9d005edfd': verifizierenButton,
+  '2996c20240ef4c7d88d0efbd62a1bbf9': welcomeButtonHandler,
 };
 
 const selectMenuHandlers = {
