@@ -124,9 +124,10 @@ ALTER TABLE `user`
 CREATE TABLE `auszahlung` (
   `ID` int(11) NOT NULL,
   `event` text DEFAULT NULL,
-  `kills` text DEFAULT NULL,
+  `ammount` text DEFAULT NULL,
   `DCID` text DEFAULT NULL,
-  `ICID` text DEFAULT NULL
+  `ICID` text DEFAULT NULL,
+  `time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 ALTER TABLE `auszahlung`
