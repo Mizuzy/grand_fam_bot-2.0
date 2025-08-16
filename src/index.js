@@ -32,35 +32,36 @@ const modalHandlers = {
 };
 
 // ----------- Command-Importe ---------------
-const testCommand = require('./commands/test.js');
 const bizConfigCommand = require('./commands/bizconfig.js');
 const fortyConfigCommand = require('./commands/fortyconfig.js');
-const configCommand = require('./commands/config.js');
+//const configCommand = require('./commands/config.js');
 const fiftyConfigCommand = require('./commands/fiftyConfig.js');
 const addHistoryCommand = require('./commands/addHistory.js');
 const getHistoryCommand = require('./commands/getHistory.js');
+const addAuszahlungCommand = require('./commands/addAuszahlung.js');
+
 
 
 // Weitere Commands manuell hier hinzufügen...
 
 const commandList = [
-  testCommand.data,
   bizConfigCommand.data,
   fortyConfigCommand.data,
-  configCommand.data,
+  //configCommand.data,
   fiftyConfigCommand.data,
   addHistoryCommand.data,
   getHistoryCommand.data,
+  addAuszahlungCommand.data,
 ];
 
 const commandMap = {
-  'test': testCommand,
   'bizconfig': bizConfigCommand,
   'forty_config': fortyConfigCommand,
-  'config': configCommand,
+  //'config': configCommand,
   'fifty_config': fiftyConfigCommand,
   'addhistory': addHistoryCommand,
   'gethistory': getHistoryCommand,
+  'addauszahlung': addAuszahlungCommand,
 
 };
 

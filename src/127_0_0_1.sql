@@ -105,7 +105,9 @@ ALTER TABLE `maps`
 CREATE TABLE `user` (
   `ID` int(11) NOT NULL,
   `user` text DEFAULT NULL,
-  `pww` text DEFAULT NULL
+  `pww` text DEFAULT NULL,
+  `DCID` text DEFAULT NULL,
+  `ICID` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO user (user,pww) VALUES ('admin','pass');
@@ -116,6 +118,22 @@ ALTER TABLE `user`
 ALTER TABLE `user`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
+  -- --------------------------------------------------------
+-- Tabelle: auszahlung
+-- --------------------------------------------------------
+CREATE TABLE `auszahlung` (
+  `ID` int(11) NOT NULL,
+  `event` text DEFAULT NULL,
+  `kills` text DEFAULT NULL,
+  `DCID` text DEFAULT NULL,
+  `ICID` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `auszahlung`
+  ADD PRIMARY KEY (`ID`);
+
+ALTER TABLE `auszahlung`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
