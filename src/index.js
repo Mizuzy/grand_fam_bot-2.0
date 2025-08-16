@@ -39,6 +39,8 @@ const fiftyConfigCommand = require('./commands/fiftyConfig.js');
 const addHistoryCommand = require('./commands/addHistory.js');
 const getHistoryCommand = require('./commands/getHistory.js');
 const addAuszahlungCommand = require('./commands/addAuszahlung.js');
+const handleWelcome = require('./handler/welcome.js');
+
 
 
 
@@ -75,6 +77,11 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
       Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
       { body: commandList }
     );
+    // Überprüfen, ob die adminOnly-Eigenschaft korrekt gesetzt ist
+console.log('📌 Command Map Übersicht:');
+Object.keys(commandMap).forEach(cmd => {
+  console.log(`- ${cmd}: AdminOnly = ${commandMap[cmd].adminOnly}`);
+});
     console.log('✅ Slash-Commands registriert!');
   } catch (err) {
     console.error('❌ Fehler beim Registrieren:', err);
@@ -123,6 +130,16 @@ client.once('ready', async () => {
     });
     i = (i + 1) % activities.length;
   }, 5000);
+});
+
+
+// ----------- Member beitritt Handler -----------
+client.on('guildMemberAdd', async member => {
+  try {
+    await handleWelcome(client, member);
+  } catch (err) {
+    console.error('❌ Fehler beim Verarbeiten des Beitritts:', err);
+  }
 });
 
 // ----------- Interaction Handler -----------
